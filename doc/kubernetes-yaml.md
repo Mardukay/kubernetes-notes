@@ -313,3 +313,12 @@ Create service from file:
 kubectl create -f service-definition.yml
 ```
 
+Show created service:
+
+```bash
+kubectl get services
+```
+
+If we have multiple pods with the same labels on different nodes then service automatically mapping ports to this pods.
+
+![image-20240227171609029](https://github.com/Mardukay/kubernetes-notes/blob/main/images/nodeport-multiple)
