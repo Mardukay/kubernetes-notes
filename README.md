@@ -1,5 +1,3 @@
-# kubernetes-notes
-Kubernetes yaml definitions
-
-[D:\DevOPS_tutor\Learning-notes\DevOPS\Kubernetes\kubernetes_notes\kubernetes-notes\doc\kubernetes-yaml.md]()
+# Kubernetes notes
+[Kubernetes yaml definitions](https://github.com/Mardukay/kubernetes-notes/blob/main/doc/kubernetes-yaml.md)
 
