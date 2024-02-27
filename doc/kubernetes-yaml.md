@@ -281,7 +281,7 @@ Service Types
 
 NodePort service is an object that listen to the port on the node and forward requests on that port to a port on the pod running the web application.
 
-![image-20240227163801962](D:\DevOPS_tutor\Learning-notes\DevOPS\Kubernetes\pictures\nodeport)
+![image-20240227163801962](https://github.com/Mardukay/kubernetes-notes/blob/main/images/nodeport)
 
 `service-definition.yml`
 
