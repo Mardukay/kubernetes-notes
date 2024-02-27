@@ -1,7 +1,5 @@
 # Yaml in kubernetes
 
-[TOC]
-
 ### Kubernetes api version for komponents
 
 | Kind       | apiVersion |
