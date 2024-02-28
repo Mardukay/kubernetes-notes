@@ -322,3 +322,74 @@ kubectl get services
 If we have multiple pods with the same labels on different nodes then service automatically mapping ports to this pods.
 
 ![image-20240227171609029](https://github.com/Mardukay/kubernetes-notes/blob/main/images/nodeport-multiple)
+
+----
+
+#### ClusterIP
+
+Grouping pods and provide single interface to connect to the group
+
+![image-20240228115701634](https://github.com/Mardukay/kubernetes-notes/blob/main/images/clusterip)
+
+`service-definition.yml`
+
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: back-end
+
+spec:
+  type: ClusterIP      # service type
+  ports:
+    - targetPort: 80  # port on pod
+      port: 80        # port on service object
+
+  selector:
+    app: myapp
+    type: front-end
+```
+
+Create service from file:
+
+```bash
+kubectl create -f service-definition.yml
+```
+
+Show created service:
+
+```bash
+kubectl get services
+```
+
+----
+
+#### LoadBalancer
+
+`service-definition.yml`
+
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: myapp-service
+
+spec:
+  type: LoadBalancer      # service type
+  ports:
+    - targetPort: 80  # port on pod
+      port: 80        # port on service object
+      nodePort: 30008 # node port
+      # if we don't provide a target port then it the same as port
+      # if we don't provide a nodePort then it allocated automatically from range 30000-32767
+      # we can have multiple port mapping in one service
+  # define pod
+  selector:
+    app: myapp
+    type: front-end
+```
+
+LoadBalancer works only on supported cloud providers (AWS, Asure, GCP etc)
+
+If we create LoadBalancer service on unsupported cloud provider or in virtualbox LoadBalancer will work just like NodePort
+
