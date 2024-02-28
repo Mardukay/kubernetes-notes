@@ -329,6 +329,8 @@ If we have multiple pods with the same labels on different nodes then service au
 
 Grouping pods and provide single interface to connect to the group
 
+Mostly used for internal interconnections between pods
+
 ![image-20240228115701634](https://github.com/Mardukay/kubernetes-notes/blob/main/images/clusterip)
 
 `service-definition.yml`
