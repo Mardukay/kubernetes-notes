@@ -97,6 +97,8 @@ spec:
           value: "postgres"
         - name: POSTGRES_PASSWORD
           value: "postgres"
+        - name: POSTGRES_HOST_AUTH_METHOD
+          value: trust
 ```
 
 `worker-app-pod.yaml`
@@ -114,7 +116,7 @@ spec:
   containers:
     - name: worker-app
       image: kodekloud/examplevotingapp_worker:v1
-
+      
 ```
 
 `redis-service.yaml`
@@ -189,11 +191,27 @@ metadata:
 spec:
   type: NodePort
   ports:
-    - port: 80
+    - port: 8080
       targetPort: 80
       nodePort: 30005
   selector:
     name: result-app-pod
     app: demo-voting-app
+```
+
+Create pods and services:
+
+```bash
+kubectl create -f <path_to_file>
+```
+
+Expose NodePort services with PortForward:
+
+```bash
+kubectl port-forward svc/voting-service 9000:80
+```
+
+```bash
+kubectl port-forward svc/result-service 9001:8080 
 ```
 
