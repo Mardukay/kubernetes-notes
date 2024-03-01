@@ -16,7 +16,7 @@ For example we deploy simple app
    - voting-app
    - result-app
 
-Create pods
+### Deploy voting app with kind:Pod
 
 `voting-app-pod.yaml`
 
@@ -119,6 +119,8 @@ spec:
       
 ```
 
+### Create services
+
 `redis-service.yaml`
 
 ```yaml
@@ -199,7 +201,160 @@ spec:
     app: demo-voting-app
 ```
 
-Create pods and services:
+### Deploy voting app with kind:Deployment
+
+`voting-app-deploy.yaml`
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: voting-app-deploy
+  app: demo-voting-app
+  
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: voting-app-pod
+      app: demo-voting-app
+  template:
+    metadata:
+      name: voting-app-pod
+      labels:
+        name: voting-app-pod
+        app: demo-voting-app
+    spec:
+      containers:
+        - name: voting-app
+          image: kodekloud/examplevotingapp_vote:v1
+          ports:
+            - containerPort: 80
+```
+
+`redis-deploy.yaml`
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis-deploy
+  app: demo-voting-app
+  
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: redis-pod
+      app: demo-voting-app
+  template:
+    metadata:
+      name: redis-pod
+      labels:
+        name: redis-pod
+        app: demo-voting-app
+    spec:
+      containers:
+        - name: redis
+          image: redis
+          ports:
+            - containerPort: 6379
+```
+
+`postgres-deploy.yaml`
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-deploy
+  app: demo-voting-app
+  
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: postgres-pod
+      app: demo-voting-app
+  template:
+    metadata:
+      name: postgres-pod
+      labels:
+        name: postgres-pod
+        app: demo-voting-app
+    spec:
+      containers:
+        - name: postgres
+          image: postgres
+          ports:
+            - containerPort: 5432
+          env:                         #better practice is using secrets
+            - name: POSTGRES_USER      #but for example we use env:
+              value: "postgres"
+            - name: POSTGRES_PASSWORD
+              value: "postgres"
+            - name: POSTGRES_HOST_AUTH_METHOD
+              value: trust
+```
+
+`result-app-deploy.yaml`
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: result-app-deploy
+  app: demo-voting-app
+  
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: result-app-pod
+      app: demo-voting-app
+  template:
+    metadata:
+      name: result-app-pod
+      labels:
+        name: result-app-pod
+        app: demo-voting-app
+    spec:
+      containers:
+        - name: result-app
+          image: kodekloud/examplevotingapp_result:v1
+          ports:
+            - containerPort: 80
+```
+
+`worker-app-deploy.yaml`
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: worker-app-deploy
+  app: demo-voting-app
+  
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: worker-app-pod
+      app: demo-voting-app
+  template:
+    metadata:
+      name: worker-app-pod
+      labels:
+        name: worker-app-pod
+        app: demo-voting-app
+    spec:
+      containers:
+        - name: worker-app
+          image: kodekloud/examplevotingapp_worker:v1
+
+```
+
+### Create pods/deloyment and services from files
 
 ```bash
 kubectl create -f <path_to_file>
@@ -215,3 +370,4 @@ kubectl port-forward svc/voting-service 9000:80
 kubectl port-forward svc/result-service 9001:8080 
 ```
 
+### 
